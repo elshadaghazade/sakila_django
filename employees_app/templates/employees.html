@@ -27,15 +27,15 @@
     <table border="1" style="border-collapse: collapse;">
         <thead>
             <tr>
-                <th><a href="">Emp No</a></th>
-                <th><a href="">Full Name</a></th>
-                <th><a href="">B/Date</a></th>
-                <th><a href="">Gender</a></th>
-                <th><a href="">Hire Date</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'emp_no_desc' %}emp_no_asc{% else %}emp_no_desc{% endif %}">Emp No</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'full_name_desc' %}full_name_asc{% else %}full_name_desc{% endif %}">Full Name</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'b_date_desc' %}b_date_asc{% else %}b_date_desc{% endif %}">B/Date</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'gender_desc' %}gender_asc{% else %}gender_desc{% endif %}">Gender</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'hire_date_desc' %}hire_date_asc{% else %}hire_date_desc{% endif %}">Hire Date</a></th>
             </tr>
         </thead>
         <tbody>
-            {% for emp in employees %}
+            {% for emp in pages.object_list %}
                 <tr>
                     <td>{{emp.emp_no}}</td>
                     <td>{{emp.first_name}} {{emp.last_name}}</td>
@@ -51,8 +51,6 @@
         </tbody>
     </table>
 
-    Pages: {% for i in page_numbers %}
-        <a href="?page={{i}}">{{i}}</a>
-    {% endfor %}
+    Pages:
 </body>
 </html>

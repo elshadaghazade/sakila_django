@@ -9,9 +9,9 @@
 <body>
     <h1>Employees</h1>
 
-    <form method="post">
-        <input type="search" name="full_name" placeholder="Search by full name...">
-        <input type="search" name="b_date" placeholder="search by birth date...">
+    <form method="get">
+        <input type="search" name="full_name" placeholder="Search by full name..." value="{{request.GET.full_name}}">
+        <input type="search" name="b_date" placeholder="search by birth date..." value="{{request.GET.b_date}}">
         <select name="gender">
             <option value="all">All</option>
             <option value="M">Male</option>
@@ -33,43 +33,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>10001</td>
-                <td>Elshad Agayev</td>
-                <td>23/06/1987</td>
-                <td>Male</td>
-                <td>15/11/1999</td>
-            </tr>
-            <tr>
-                <td>10001</td>
-                <td>Elshad Agayev</td>
-                <td>23/06/1987</td>
-                <td>Male</td>
-                <td>15/11/1999</td>
-            </tr>
-            <tr>
-                <td>10001</td>
-                <td>Elshad Agayev</td>
-                <td>23/06/1987</td>
-                <td>Male</td>
-                <td>15/11/1999</td>
-            </tr>
-            <tr>
-                <td>10001</td>
-                <td>Elshad Agayev</td>
-                <td>23/06/1987</td>
-                <td>Male</td>
-                <td>15/11/1999</td>
-            </tr>
+            {% for emp in employees %}
+                <tr>
+                    <td>{{emp.emp_no}}</td>
+                    <td>{{emp.first_name}} {{emp.last_name}}</td>
+                    <td>{{emp.birth_date|date:"d-m-Y"}}</td>
+                    <td>{% if emp.gender == 'F' %}Female{% else %}Male{% endif %}</td>
+                    <td>{{emp.hire_date|date:"d-m-Y"}}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">There is no employee</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    Pages: <a href="">1</a>
-    <a href="">2</a>
-    <a href="">3</a>
-    <a href="">4</a>
-    <a href="">5</a>
-    <a href="">6</a>
-    ...
+    Pages: {% for i in page_numbers %}
+        <a href="?page={{i}}">{{i}}</a>
+    {% endfor %}
 </body>
 </html>

@@ -18,10 +18,10 @@ def show_employees(request):
     except:
         current_page = 0
 
-    limit = 10
+    limit = 100
     start = current_page * limit
     
-    emps = Employees.objects.all()
+    emps = Employees.objects.all().values('emp_no', 'birth_date', 'first_name', 'last_name', 'gender', 'hire_date', 'titles__title', 'deptmanager__dept_no__dept_name', 'deptemp__dept_no__dept_name')
     # SELECT * FROM employees
 
     if search_by_full_name:
@@ -63,10 +63,23 @@ def show_employees(request):
         emps = emps.order_by('-hire_date')
     elif order_by == 'hire_date_asc':
         emps = emps.order_by('hire_date')
+    elif order_by == 'title_desc':
+        emps = emps.order_by('-titles__title')
+    elif order_by == 'title_asc':
+        emps = emps.order_by('titles__title')
+    elif order_by == 'dept_manager_desc':
+        emps = emps.order_by('-deptmanager__dept_no__dept_name')
+    elif order_by == 'dept_manager_asc':
+        emps = emps.order_by('deptmanager__dept_no__dept_name')
+    elif order_by == 'department_desc':
+        emps = emps.order_by('-deptemp__dept_no__dept_name')
+    elif order_by == 'department_asc':
+        emps = emps.order_by('deptemp__dept_no__dept_name')
 
-    
-    pages = Paginator(emps, 10)
+    page_count = (emps.count() // limit) + 1
+    pages = range(1, page_count)
 
     return render(request, 'employees.html', context={
+        'employees': emps[start:start+limit],
         'pages': pages
     })

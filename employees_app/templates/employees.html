@@ -32,16 +32,23 @@
                 <th><a href="?order_by={% if request.GET.order_by == 'b_date_desc' %}b_date_asc{% else %}b_date_desc{% endif %}">B/Date</a></th>
                 <th><a href="?order_by={% if request.GET.order_by == 'gender_desc' %}gender_asc{% else %}gender_desc{% endif %}">Gender</a></th>
                 <th><a href="?order_by={% if request.GET.order_by == 'hire_date_desc' %}hire_date_asc{% else %}hire_date_desc{% endif %}">Hire Date</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'title_desc' %}title_asc{% else %}title_desc{% endif %}">Title</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'dept_manager_desc' %}dept_manager_asc{% else %}dept_manager_desc{% endif %}">Manager at</a></th>
+                <th><a href="?order_by={% if request.GET.order_by == 'department_desc' %}department_asc{% else %}department_desc{% endif %}">Works at</a></th>
+
             </tr>
         </thead>
         <tbody>
-            {% for emp in pages.object_list %}
+            {% for emp in employees %}
                 <tr>
                     <td>{{emp.emp_no}}</td>
                     <td>{{emp.first_name}} {{emp.last_name}}</td>
                     <td>{{emp.birth_date|date:"d-m-Y"}}</td>
                     <td>{% if emp.gender == 'F' %}Female{% else %}Male{% endif %}</td>
                     <td>{{emp.hire_date|date:"d-m-Y"}}</td>
+                    <td>{{emp.titles__title}}</td>
+                    <td>{{emp.deptmanager__dept_no__dept_name}}</td>
+                    <td>{{emp.deptemp__dept_no__dept_name}}</td>
                 </tr>
             {% empty %}
                 <tr>
@@ -52,5 +59,8 @@
     </table>
 
     Pages:
+    {% for i in pages %}
+        <a href="?page={{i}}">{{i}}</a>
+    {% endfor %}
 </body>
 </html>

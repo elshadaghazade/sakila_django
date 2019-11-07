@@ -81,5 +81,10 @@ def show_employees(request):
 
     return render(request, 'employees.html', context={
         'employees': emps[start:start+limit],
+        'query_string': request.GET.urlencode(),
         'pages': pages
     })
+
+
+def reports(request):
+    return render(request, "reports.html")

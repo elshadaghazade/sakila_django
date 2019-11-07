@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Employees</h1>
+
+    <form method="get">
+        <div>
+            <select name="field">
+                <option value="">-- Select Any Field --</option>
+                <option value="1">Birth date</option>
+                <option value="2">Hire date</option>
+                <option value="3">Salary from date</option>
+                <option value="4">Salary to date</option>
+            </select>
+            <select name="operator">
+                <option value="">-- Select Operator --</option>
+                <option value="gt">&gt;</option>
+                <option value="gte">&gt;=</option>
+                <option value="lt">&lt;</option>
+                <option value="lte">&lt;=</option>
+            </option>
+            <input type="value">
+        </div>
+        <button type="submit">Search</button>
+    </form>
+
+    <br><br>
+
+    <table border="1" style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th><a href="?order_by=emp_no_desc">Emp No</a></th>
+                <th><a href="?order_by=full_name_desc">Full Name</a></th>
+                <th><a href="?order_by=b_date_desc">B/Date</a></th>
+                <th><a href="?order_by=gender_desc">Gender</a></th>
+                <th><a href="?order_by=hire_date_desc">Hire Date</a></th>
+                <th><a href="?order_by=title_desc">Title</a></th>
+                <th><a href="?order_by=dept_manager_desc">Manager at</a></th>
+                <th><a href="?order_by=department_desc">Works at</a></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>10001</td>
+                    <td>Georgi Facello</td>
+                    <td>02-09-1953</td>
+                    <td>Male</td>
+                    <td>26-06-1986</td>
+                    <td>Senior Engineer</td>
+                    <td>None</td>
+                    <td>Development</td>
+                </tr>
+            
+                <tr>
+                    <td>10002</td>
+                    <td>Bezalel Simmel</td>
+                    <td>02-06-1964</td>
+                    <td>Female</td>
+                    <td>21-11-1985</td>
+                    <td>Staff</td>
+                    <td>None</td>
+                    <td>Sales</td>
+                </tr>
+            
+        </tbody>
+    </table>
+
+    Pages:
+    
+        <a href="?page=1">1</a>
+    
+        <a href="?page=2">2</a>
+    
+</body>
+</html>

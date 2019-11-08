@@ -14,19 +14,20 @@
         <div>
             <select name="field">
                 <option value="">-- Select Any Field --</option>
-                <option value="1">Birth date</option>
-                <option value="2">Hire date</option>
-                <option value="3">Salary from date</option>
-                <option value="4">Salary to date</option>
+                <option value="1" {% if request.GET.field == "1" %}selected{% endif %}>Birth date</option>
+                <option value="2" {% if request.GET.field == "2" %}selected{% endif %}>Hire date</option>
+                <option value="3" {% if request.GET.field == "3" %}selected{% endif %}>Salary from date</option>
+                <option value="4" {% if request.GET.field == "4" %}selected{% endif %}>Salary to date</option>
             </select>
             <select name="operator">
                 <option value="">-- Select Operator --</option>
-                <option value="gt">&gt;</option>
-                <option value="gte">&gt;=</option>
-                <option value="lt">&lt;</option>
-                <option value="lte">&lt;=</option>
+                <option value="gt" {% if request.GET.operator == "gt" %}selected{% endif %}>&gt;</option>
+                <option value="gte" {% if request.GET.operator == "gte" %}selected{% endif %}>&gt;=</option>
+                <option value="lt" {% if request.GET.operator == "lt" %}selected{% endif %}>&lt;</option>
+                <option value="lte" {% if request.GET.operator == "lte" %}selected{% endif %}>&lt;=</option>
+                <option value="exact" {% if request.GET.operator == "exact" %}selected{% endif %}>==</option>
             </option>
-            <input type="value">
+            <input type="text" name="value" value="{{request.GET.value}}">
         </div>
         <button type="submit">Search</button>
     </form>
@@ -48,29 +49,22 @@
             </tr>
         </thead>
         <tbody>
-            
+            {% for emp in employees %}
                 <tr>
-                    <td>10001</td>
-                    <td>Georgi Facello</td>
-                    <td>02-09-1953</td>
-                    <td>Male</td>
-                    <td>26-06-1986</td>
-                    <td>Senior Engineer</td>
-                    <td>None</td>
-                    <td>Development</td>
+                    <td>{{emp.emp_no}}</td>
+                    <td>{{emp.first_name}} {{emp.last_name}}</td>
+                    <td>{{emp.birth_date|date:"d-m-Y"}}</td>
+                    <td>{% if emp.gender == 'F' %}Female{% else %}Male{% endif %}</td>
+                    <td>{{emp.hire_date|date:"d-m-Y"}}</td>
+                    <td>{{emp.titles__title}}</td>
+                    <td>{{emp.deptmanager__dept_no__dept_name}}</td>
+                    <td>{{emp.deptemp__dept_no__dept_name}}</td>
                 </tr>
-            
+            {% empty %}
                 <tr>
-                    <td>10002</td>
-                    <td>Bezalel Simmel</td>
-                    <td>02-06-1964</td>
-                    <td>Female</td>
-                    <td>21-11-1985</td>
-                    <td>Staff</td>
-                    <td>None</td>
-                    <td>Sales</td>
+                    <td colspan="5">There is no employee</td>
                 </tr>
-            
+            {% endfor %}
         </tbody>
     </table>
 

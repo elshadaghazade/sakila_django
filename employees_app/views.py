@@ -87,4 +87,40 @@ def show_employees(request):
 
 
 def reports(request):
-    return render(request, "reports.html")
+    field = request.GET.get('field')
+    operator = request.GET.get('operator')
+    value = request.GET.get('value')
+
+    context = {}
+
+    emps = Employees.objects.all()
+
+    fields = {
+        '1': 'birth_date', 
+        '2': 'hire_date', 
+        '3': 'salaries__from_date', 
+        '4': 'salaries__to_date'
+    }
+
+    field = fields.get(field)
+
+    operators = ['gt', 'gte', 'lt', 'lte', 'exact']
+    if operator not in operators:
+        operator = None
+
+    if field and operator and value:
+        lookup = {
+            field + "__" + operator: value
+        }
+
+        emps = Employees.objects.filter(**lookup).values('emp_no', 'birth_date', 'first_name', 'last_name', 'gender', 'hire_date', 'titles__title', 'deptmanager__dept_no__dept_name', 'deptemp__dept_no__dept_name')[:100]
+    else:
+        emps = []
+
+    context = {
+        'employees': emps
+    }
+
+    
+
+    return render(request, "reports.html", context=context)

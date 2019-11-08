@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Employees
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.db.models import Avg, Count, StdDev, Min, Max
 
 def show_employees(request):
     search_by_full_name = request.GET.get('full_name')
@@ -91,6 +92,10 @@ def reports(request):
     operator = request.GET.get('operator')
     value = request.GET.get('value')
 
+    aggregate = request.GET.get('aggregate')
+    agg_field = request.GET.get('agg_field')
+    group_by = request.GET.get('group_by')
+
     context = {}
 
     emps = Employees.objects.all()
@@ -108,18 +113,60 @@ def reports(request):
     if operator not in operators:
         operator = None
 
+    aggregates = {
+        'count': Count,
+        'avg': Avg,
+        'stddev': StdDev,
+        'min': Min,
+        'max': Max
+    }
+
+    aggregate = aggregates.get(aggregate)
+
+    agg_fields = {
+        '1': 'emp_no',
+        '2': 'salaries__salary'
+    }
+
+    agg_field = agg_fields.get(agg_field)
+
+    groups = {
+        '1': 'emp_no',
+        '2': 'salaries__salary',
+        '3': 'first_name',
+        '4': 'birth_date',
+        '5': 'gender',
+        '6': 'hire_date',
+        '7': 'titles__title',
+        '8': 'deptmanager__dept_no__dept_name',
+        '9': 'deptemp__dept_no__dept_name'
+    }
+
+    group_by = groups.get(group_by)
+
     if field and operator and value:
         lookup = {
             field + "__" + operator: value
         }
 
-        emps = Employees.objects.filter(**lookup).values('emp_no', 'birth_date', 'first_name', 'last_name', 'gender', 'hire_date', 'titles__title', 'deptmanager__dept_no__dept_name', 'deptemp__dept_no__dept_name')[:100]
+        emps = Employees.objects.filter(**lookup).values('emp_no', 'birth_date', 'first_name', 'last_name', 'gender', 'hire_date', 'titles__title', 'deptmanager__dept_no__dept_name', 'deptemp__dept_no__dept_name')
+
+        if not group_by:
+            emps = emps.aggregate(aggregate(agg_field))
+        else:
+            emps = emps.annotate(agg_field=aggregate(agg_field))
+            #.distinct('emp_no', 'birth_date', 'first_name', 'last_name', 'gender', 'hire_date', 'titles__title', 'deptmanager__dept_no__dept_name', 'deptemp__dept_no__dept_name')
     else:
         emps = []
 
+    print(emps)
+
     context = {
-        'employees': emps
+        'employees': emps,
+        'template': ''
     }
+
+
 
     
 

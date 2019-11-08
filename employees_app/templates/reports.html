@@ -44,7 +44,7 @@
                 <option value="2" {% if request.GET.agg_field == '2'%}selected{% endif %}>Salary</option>
             </select>
 
-            <select name="group_by" multiple>
+            <select name="group_by">
                 <option value="">-- Select group by field --</option>
                 <option value="1" {% if request.GET.group_by == '1'%}selected{% endif %}>Emp no</option>
                 <option value="2" {% if request.GET.group_by == '2'%}selected{% endif %}>Salary</option>
@@ -73,6 +73,7 @@
                 <th><a href="?order_by=title_desc">Title</a></th>
                 <th><a href="?order_by=dept_manager_desc">Manager at</a></th>
                 <th><a href="?order_by=department_desc">Works at</a></th>
+                <th>Report</th>
 
             </tr>
         </thead>
@@ -87,6 +88,7 @@
                     <td>{{emp.titles__title}}</td>
                     <td>{{emp.deptmanager__dept_no__dept_name}}</td>
                     <td>{{emp.deptemp__dept_no__dept_name}}</td>
+                    <td>{{emp.agg_field}}</td>
                 </tr>
             {% empty %}
                 <tr>

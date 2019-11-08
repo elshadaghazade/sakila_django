@@ -26,8 +26,36 @@
                 <option value="lt" {% if request.GET.operator == "lt" %}selected{% endif %}>&lt;</option>
                 <option value="lte" {% if request.GET.operator == "lte" %}selected{% endif %}>&lt;=</option>
                 <option value="exact" {% if request.GET.operator == "exact" %}selected{% endif %}>==</option>
-            </option>
+            </select>
             <input type="text" name="value" value="{{request.GET.value}}">
+        </div>
+        <div>
+            <select name="aggregate">
+                <option value="">-- Select Aggregate Function --</option>
+                <option value="count" {% if request.GET.aggregate == 'count'%}selected{% endif %}>Count</option>
+                <option value="avg" {% if request.GET.aggregate == 'average'%}selected{% endif %}>Average</option>
+                <option value="stddev" {% if request.GET.aggregate == 'stddev'%}selected{% endif %}>Standard Deviation</option>
+                <option value="min" {% if request.GET.aggregate == 'min'%}selected{% endif %}>Minimum</option>
+                <option value="max" {% if request.GET.aggregate == 'max'%}selected{% endif %}>Maximum</option>
+            </select>
+            <select name="agg_field">
+                <option value="">-- Select field for aggregation --</option>
+                <option value="1" {% if request.GET.agg_field == '1'%}selected{% endif %}>Emp no</option>
+                <option value="2" {% if request.GET.agg_field == '2'%}selected{% endif %}>Salary</option>
+            </select>
+
+            <select name="group_by" multiple>
+                <option value="">-- Select group by field --</option>
+                <option value="1" {% if request.GET.group_by == '1'%}selected{% endif %}>Emp no</option>
+                <option value="2" {% if request.GET.group_by == '2'%}selected{% endif %}>Salary</option>
+                <option value="3" {% if request.GET.group_by == '3'%}selected{% endif %}>Full Name</option>
+                <option value="4" {% if request.GET.group_by == '4'%}selected{% endif %}>Birth Date</option>
+                <option value="5" {% if request.GET.group_by == '5'%}selected{% endif %}>Gender</option>
+                <option value="6" {% if request.GET.group_by == '6'%}selected{% endif %}>Hire Date</option>
+                <option value="7" {% if request.GET.group_by == '7'%}selected{% endif %}>Title</option>
+                <option value="8" {% if request.GET.group_by == '8'%}selected{% endif %}>Manager At</option>
+                <option value="9" {% if request.GET.group_by == '9'%}selected{% endif %}>Works At</option>
+            </select>
         </div>
         <button type="submit">Search</button>
     </form>

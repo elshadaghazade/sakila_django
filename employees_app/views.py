@@ -1,8 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Employees
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.db.models import Avg, Count, StdDev, Min, Max
+from .forms import *
+
+def create_employee(request):
+    if request.method == 'POST':
+        form = CreateEmployeeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('show_employees')
+    else:
+        form = CreateEmployeeForm()
+
+    return render(request, 'create_employee.html', context={
+        'form': form
+    })
 
 def show_employees(request):
     search_by_full_name = request.GET.get('full_name')
